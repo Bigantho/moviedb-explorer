@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError , map} from 'rxjs/operators';
 import { MovieModel } from './movie.model';
 import { environment } from '../environments/environment';
 
@@ -24,14 +24,20 @@ export class Movie {
   }
 
 
-  getMovies(): Observable<{ results: MovieModel[] }> {
-    return this.http.get<{ results: MovieModel[] }>(`${this.apiUrl}/movie/popular`, { headers: this.getHeaders() })
-      .pipe(
-        catchError(error => {
-          console.error('Error fetching movies:', error);
-          return throwError(() => new Error('Error al obtener las películas'));
-        })
-      );
+  getMovies(page: number = 1): Observable<{ results: MovieModel[], total_pages: number }> {
+    return this.http.get<{ results: MovieModel[], total_pages: number }>(
+      `${this.apiUrl}/movie/popular?page=${page}`,
+      { headers: this.getHeaders() }
+    ).pipe(
+      map(response => ({
+        results: response.results.slice(0, 6), 
+        total_pages: response.total_pages
+      })),
+      catchError(error => {
+        console.error('Error fetching movies:', error);
+        return throwError(() => new Error('Error al obtener las películas'));
+      })
+    );
   }
 
   getMovie(id: number): Observable<MovieModel> {
@@ -44,11 +50,15 @@ export class Movie {
       );
   }
 
-  searchMovies(query: string): Observable<{ results: MovieModel[] }> {
-    return this.http.get<{ results: MovieModel[] }>(
-      `${this.apiUrl}/search/movie?query=${encodeURIComponent(query)}`,
+  searchMovies(query: string, page: number = 1): Observable<{ results: MovieModel[], total_pages: number }> {
+    return this.http.get<{ results: MovieModel[], total_pages: number }>(
+      `${this.apiUrl}/search/movie?query=${encodeURIComponent(query)}&page=${page}`,
       { headers: this.getHeaders() }
     ).pipe(
+      map(response => ({
+        results: response.results.slice(0, 6), 
+        total_pages: response.total_pages
+      })),
       catchError(error => {
         console.error('Error searching movies:', error);
         return throwError(() => new Error('Error al buscar películas'));

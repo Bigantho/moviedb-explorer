@@ -20,3 +20,10 @@
 </div>
 <p *ngIf="movies.length === 0 && searchQuery">No se encontraron películas para "{{ searchQuery }}".</p>
 <p *ngIf="movies.length === 0 && !searchQuery">Cargando películas...</p>
+
+
+<div class="pagination" *ngIf="movies.length > 0">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+  <span>Página {{ currentPage }} de {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+</div>

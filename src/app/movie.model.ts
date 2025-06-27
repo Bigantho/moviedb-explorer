@@ -1,4 +1,8 @@
-// src/app/movie.model.ts
+export interface Genre {
+  id: number;
+  name: string;
+}
+
 export interface MovieModel {
   id: number;
   title: string;
@@ -6,4 +10,5 @@ export interface MovieModel {
   release_date: string;
   vote_average: number;
   poster_path: string;
+  genres: Genre[];
 }

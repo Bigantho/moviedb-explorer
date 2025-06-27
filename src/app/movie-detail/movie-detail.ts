@@ -15,6 +15,7 @@ import { MovieModel } from '../movie.model';
 })
 export class movieDetail implements OnInit {
   movie: MovieModel | null = null;
+  genresDisplay: string = ''; 
 
   constructor(
     private movieService: Movie,
@@ -27,12 +28,21 @@ export class movieDetail implements OnInit {
     });
 
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log("el id",id);
     
     if (!this.movie || this.movie.id !== id) {
-      this.movieService.getMovie(id).subscribe(movie => {
-        this.movie = movie;
-        this.movieService.selectMovie(movie);
+      this.movieService.getMovie(id).subscribe({
+        next: movie => {
+          this.movie = movie;
+          this.movieService.selectMovie(movie);
+          this.genresDisplay = movie.genres && movie.genres.length > 0
+          ? movie.genres.map(genre => genre.name).join(', ')
+          : 'No disponibles';
+        },
+        error: error => {
+          console.error('Error cargando película:', error);
+          this.movie = null;
+          this.genresDisplay = 'No disponibles';
+        }
       });
     }
   }
