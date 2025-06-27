@@ -1,0 +1,19 @@
+<div class="search-container">
+  <h2>Lista de Películas Populares</h2>
+  <input
+    type="text"
+    [(ngModel)]="searchQuery"
+    placeholder="Buscar películas..."
+    class="search-input"
+  />
+  <button (click)="onSearchChange()">Buscar</button>
+</div>
+<h2>Lista de Películas Populares</h2>
+<div class="movie-grid">
+  <div *ngFor="let movie of movies" class="movie-card" (click)="selectMovie(movie)">
+    <a [routerLink]="['/detail', movie.id]">
+      <img [src]="'https://image.tmdb.org/t/p/w200' + movie.poster_path" [alt]="movie.title" />
+      <h3>{{ movie.title }}</h3>
+    </a>
+  </div>
+</div>

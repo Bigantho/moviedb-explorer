@@ -1,0 +1,10 @@
+<h2>Detalles de la Película</h2>
+<div *ngIf="movie" class="movie-detail">
+  <img [src]="'https://image.tmdb.org/t/p/w300' + movie.poster_path" [alt]="movie.title" />
+  <h3>{{ movie.title }}</h3>
+  <p><strong>Sinopsis:</strong> {{ movie.overview }}</p>
+  <p><strong>Fecha de lanzamiento:</strong> {{ movie.release_date }}</p>
+  <p><strong>Calificación:</strong> {{ movie.vote_average }}/10</p>
+  <button (click)="goBack()">Volver</button>
+</div>
+<p *ngIf="!movie">Cargando...</p>
