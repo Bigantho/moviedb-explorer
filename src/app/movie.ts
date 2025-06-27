@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MovieModel } from './movie.model';
 import { environment } from '../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,9 +14,9 @@ export class Movie {
   private selectedMovieSubject = new BehaviorSubject<MovieModel | null>(null);
   selectedMovie$ = this.selectedMovieSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-private getHeaders(): HttpHeaders {
+  private getHeaders(): HttpHeaders {
     return new HttpHeaders({
       Authorization: `Bearer ${this.apiKey}`,
       'Content-Type': 'application/json'
@@ -24,7 +25,7 @@ private getHeaders(): HttpHeaders {
 
 
   getMovies(): Observable<{ results: MovieModel[] }> {
-    return this.http.get<{ results: MovieModel[] }>(`${this.apiUrl}/movie/popular`,{ headers: this.getHeaders() })
+    return this.http.get<{ results: MovieModel[] }>(`${this.apiUrl}/movie/popular`, { headers: this.getHeaders() })
       .pipe(
         catchError(error => {
           console.error('Error fetching movies:', error);
@@ -34,13 +35,25 @@ private getHeaders(): HttpHeaders {
   }
 
   getMovie(id: number): Observable<MovieModel> {
-    return this.http.get<MovieModel>(`${this.apiUrl}/movie/${id}`,{ headers: this.getHeaders() })
+    return this.http.get<MovieModel>(`${this.apiUrl}/movie/${id}`, { headers: this.getHeaders() })
       .pipe(
         catchError(error => {
           console.error('Error fetching movie:', error);
           return throwError(() => new Error('Error al obtener la película'));
         })
       );
+  }
+
+  searchMovies(query: string): Observable<{ results: MovieModel[] }> {
+    return this.http.get<{ results: MovieModel[] }>(
+      `${this.apiUrl}/search/movie?query=${encodeURIComponent(query)}`,
+      { headers: this.getHeaders() }
+    ).pipe(
+      catchError(error => {
+        console.error('Error searching movies:', error);
+        return throwError(() => new Error('Error al buscar películas'));
+      })
+    );
   }
 
   selectMovie(movie: MovieModel) {

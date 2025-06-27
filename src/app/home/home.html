@@ -3,17 +3,20 @@
   <input
     type="text"
     [(ngModel)]="searchQuery"
+    (ngModelChange)="onSearchChange()"
     placeholder="Buscar películas..."
     class="search-input"
   />
   <button (click)="onSearchChange()">Buscar</button>
 </div>
-<h2>Lista de Películas Populares</h2>
-<div class="movie-grid">
+<div class="movie-grid" *ngIf="movies.length > 0">
   <div *ngFor="let movie of movies" class="movie-card" (click)="selectMovie(movie)">
     <a [routerLink]="['/detail', movie.id]">
       <img [src]="'https://image.tmdb.org/t/p/w200' + movie.poster_path" [alt]="movie.title" />
       <h3>{{ movie.title }}</h3>
+      <h4>{{ movie.release_date}}</h4>
     </a>
   </div>
 </div>
+<p *ngIf="movies.length === 0 && searchQuery">No se encontraron películas para "{{ searchQuery }}".</p>
+<p *ngIf="movies.length === 0 && !searchQuery">Cargando películas...</p>
