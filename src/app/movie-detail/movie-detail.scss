@@ -1,0 +1,58 @@
+// src/app/detail/detail.component.scss
+
+.container {
+    display: flex;
+    align-items: stretch; // Hace que ambas columnas tengan la misma altura
+    gap: 20px; // Espacio entre columnas (opcional)
+
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.column {
+    flex: 1; // Hace que cada columna ocupe el mismo espacio
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+
+    p {
+        font-size: 1em;
+        margin: 10px 0;
+        text-align: left;
+    }
+
+    h2 {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+
+    }
+
+
+}
+
+.image-column img {
+    width: 100%;
+    //   height: 100%;
+    object-fit: cover; // Ajusta la imagen sin distorsión
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.btnVolver {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+
+.mainTitle{
+    text-align: center;
+}
