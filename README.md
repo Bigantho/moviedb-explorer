@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MoviedbExplorer
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.4.
@@ -57,3 +58,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+# moviedb-explorer
+Technically test to Front End position
+>>>>>>> dc4013010eee34bb73d383329b29e5a112de4be0
