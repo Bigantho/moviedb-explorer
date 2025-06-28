@@ -3,11 +3,10 @@
   <input
     type="text"
     [(ngModel)]="searchQuery"
-    (ngModelChange)="onSearchChange()"
     placeholder="Buscar películas..."
     class="search-input"
   />
-  <!-- <button (click)="onSearchChange()">Buscar</button> -->
+  <button (click)="onSearchChange()">Buscar</button>
 </div>
 <div class="movie-grid" *ngIf="movies.length > 0">
   <div *ngFor="let movie of movies" class="movie-card" (click)="selectMovie(movie)">
